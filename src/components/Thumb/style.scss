@@ -1,0 +1,25 @@
+.thumb {
+  position: relative;
+
+  img {
+    vertical-align: top;
+  }
+
+  &--ratio-default {
+    padding-top: 150%; // Puede haber otras proporciones de imagen.
+  }
+
+  &--loaded {
+    padding-top: 0;
+  }
+
+  &--preloading {
+    background: #F5F5F5 url('../../static/navbar-logo.svg') center center no-repeat;
+    background-size: 60% auto;
+    filter: saturate(0%);
+  }
+
+  &--error {
+    background-color: #EFEFEF;
+  }
+}

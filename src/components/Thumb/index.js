@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './style.scss';
+
 class Thumb extends Component {
   static propTypes = {
     alt: PropTypes.string,
@@ -15,13 +17,16 @@ class Thumb extends Component {
   }
 
   static defaultProps = {
-    srcBack: null
+    srcBack: null,
+    classes: '',
+
   };
 
   state = {
     backCacheReady: false,
     frontCacheReady: false,
-    displayMode: null
+    displayMode: null,
+    statusClass: 'preloading'
   };
 
   preloadImg = (imgSrc) => {
@@ -35,23 +40,36 @@ class Thumb extends Component {
   };
 
   async displayImage(imgSrc, mode) {
-    const { state } = this;
-
-    if(state[`${mode}CacheReady`]) {
-      this.setState({ displayMode: mode });
+    if(this.state[`${mode}CacheReady`]) {
+      this.setState({
+        statusClass: 'loaded',
+        displayMode: mode
+      });
 
       return;
     }
 
     try {
+      this.setState({
+        statusClass: 'preloading',
+        displayMode: null
+      });
+
       await this.preloadImg(imgSrc);
 
       this.setState({
         displayMode: mode,
+        statusClass: 'loaded',
         [`${mode}CacheReady`]: true
       });
     }
     catch(e) {
+      if(this.state.statusClass === 'preloading') {
+        this.setState({
+          statusClass: 'error'
+        });
+      }
+
       console.error(e);
     }
   }
@@ -77,15 +95,20 @@ class Thumb extends Component {
       srcBack
     } = this.props;
 
+    const completeClasses = `${classes} thumb thumb--ratio-default thumb--${this.state.statusClass}`;
+
     return (
-      <div className={classes}>
+      <div
+        className={completeClasses}
+        onMouseEnter={this.displayBack}
+        onMouseLeave={this.displayFront}
+      >
         {this.state.displayMode &&
           <img
             src={this.state.displayMode === 'front' ? src : srcBack}
             alt={alt}
             title={title}
-            onMouseEnter={this.displayBack}
-            onMouseLeave={this.displayFront} />
+          />
         }
       </div>
     );
