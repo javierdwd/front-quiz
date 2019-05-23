@@ -10,26 +10,62 @@ class Thumb extends Component {
     srcBack: PropTypes.string
   };
 
+  componentDidMount() {
+    this.displayImage(this.props.src, 'front');
+  }
+
   static defaultProps = {
     srcBack: null
   };
 
   state = {
-    displayMode: 'front'
+    backCacheReady: false,
+    frontCacheReady: false,
+    displayMode: null
   };
 
-  displayBack = () => {
-    const { props } = this;
+  preloadImg = (imgSrc) => {
+    const img = new Image();
 
-    if(!props.srcBack) {
+    return new Promise((resolve, reject) => {
+      img.src = imgSrc;
+      img.onload = resolve;
+      img.onerror = reject;
+    })
+  };
+
+  async displayImage(imgSrc, mode) {
+    const { state } = this;
+
+    if(state[`${mode}CacheReady`]) {
+      this.setState({ displayMode: mode });
+
+      return;
+    }
+
+    try {
+      await this.preloadImg(imgSrc);
+
+      this.setState({
+        displayMode: mode,
+        [`${mode}CacheReady`]: true
+      });
+    }
+    catch(e) {
+      console.error(e);
+    }
+  }
+
+  displayBack = () => {
+    if(!this.props.srcBack) {
       return false;
     }
 
-    this.setState({ displayMode: 'back' });
+    this.displayImage(this.props.srcBack, 'back');
   }
 
   displayFront = () => {
-    this.setState({ displayMode: 'front' });
+    this.displayImage(this.props.src, 'front');
   }
 
   render() {
@@ -43,12 +79,14 @@ class Thumb extends Component {
 
     return (
       <div className={classes}>
-        <img
-          src={this.state.displayMode === 'front' ? src : srcBack}
-          alt={alt}
-          title={title}
-          onMouseEnter={this.displayBack}
-          onMouseLeave={this.displayFront} />
+        {this.state.displayMode &&
+          <img
+            src={this.state.displayMode === 'front' ? src : srcBack}
+            alt={alt}
+            title={title}
+            onMouseEnter={this.displayBack}
+            onMouseLeave={this.displayFront} />
+        }
       </div>
     );
   }
