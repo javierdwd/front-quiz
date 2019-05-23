@@ -1,0 +1,36 @@
+@import "../variables";
+
+$search-box-size: 32px;
+
+.search-box {
+  &__form {
+    display: flex;
+    flex-flow: row nowrap;
+    height: $search-box-size;
+    margin: 0 auto;
+    position: relative;
+  }
+  &__query {
+    border: 1px solid $controls-border-color;
+    flex-grow: 1;
+    font-size: .8em;
+    line-height: $search-box-size;
+    outline-color: $brand-color;
+    padding: 0 8px 0 14px;
+    vertical-align: middle;
+    width: auto;
+  }
+  &__button {
+    background-color: black;
+    border: 0;
+    display: block;
+    height: $search-box-size;
+    outline-color: $brand-color;
+    padding: 0 4px;
+
+    img {
+      height: $search-box-size + 4px;
+      margin-top: -2px;
+    }
+  }
+}

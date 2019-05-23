@@ -1,39 +1,74 @@
 import React from 'react';
 
-const Navbar = () => (
-  <nav className="navbar">
-    <ul className="navbar__menu">
-      <li className="navbar__item navbar__item--has-children">
-        <a href="/" className="navbar__link">Hombre</a>
+import Toggle from './Toggle';
 
-        <ul className="navar__submenu">
-          <li className="navbar__item">
-            <a href="/" className="navbar__link">Sub-Link 1</a>
-            <a href="/" className="navbar__link">Sub-Link 1</a>
-            <a href="/" className="navbar__link">Sub-Link 1</a>
+import './style.scss';
 
-          </li>
-        </ul>
-      </li>
+class Navbar extends React.Component {
+  state = {
+    isOpen: false
+  };
 
-      <li className="navbar__item navbar__item--has-children">
-        <a href="/" className="navbar__link">Mujer</a>
+  openHandler = () => {
+    this.setState({ isOpen: true });
+  };
+  closeHandler = () => {
+    this.setState({ isOpen: false });
+  };
 
-        <ul className="navar__submenu">
-          <li className="navbar__item">
-            <a href="/" className="navbar__link">Sub-Link 1</a>
-            <a href="/" className="navbar__link">Sub-Link 1</a>
-            <a href="/" className="navbar__link">Sub-Link 1</a>
+  render() {
+    return (
+      <div className="header__navbar">
+        <Toggle
+          action="open"
+          label="Abrir"
+          onClick={this.openHandler}
+        />
 
-          </li>
-        </ul>
-      </li>
+        <nav className={`navbar navbar--${this.state.isOpen ? 'open' : 'closed'}`}>
+          <Toggle
+            action="close"
+            label="Cerrar"
+            onClick={this.closeHandler}
+          >x</Toggle>
+          <ul className="navbar__menu">
+            <li className="navbar__item navbar__item--has-children">
+              <a href="/hombre" className="navbar__link navbar__link--text-center">Hombre</a>
+              <button className="navbar__plus"><i>+</i></button>
 
-      <li className="navbar__item">
-        <a href="/" className="navbar__link">Contacto</a>
-      </li>
-    </ul>
-  </nav>
-);
+              <ul className="navbar__submenu">
+                <li className="navbar__item">
+                  <a href="/hombre-jeans" className="navbar__link">Jeans</a>
+                </li>
+                <li className="navbar__item">
+                  <a href="/hombre-remeras" className="navbar__link">Remeras</a>
+                </li>
+              </ul>
+            </li>
+
+            <li className="navbar__item navbar__item--has-children">
+              <a href="/mujer" className="navbar__link navbar__link--text-center">Mujer</a>
+              <button className="navbar__plus"><i>+</i></button>
+
+              <ul className="navbar__submenu">
+                <li className="navbar__item">
+                  <a href="/mujer-jeans" className="navbar__link">Jeans</a>
+                </li>
+                <li className="navbar__item">
+                  <a href="/mujer-remeras" className="navbar__link">Remeras</a>
+                </li>
+              </ul>
+            </li>
+
+            <li className="navbar__item">
+              <a href="/contacto" className="navbar__link navbar__link--text-center">Contacto</a>
+            </li>
+          </ul>
+        </nav>
+        <div className="navbar__backdrop"></div>
+      </div>
+    )
+  }
+};
 
 export default Navbar;

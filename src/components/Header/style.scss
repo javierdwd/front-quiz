@@ -1,0 +1,27 @@
+.header * {
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 auto 15px;
+  max-width: 1200px;
+  position: relative;
+  z-index: 50;
+
+  &__navbar {
+    margin-left: auto;
+
+    .toggle--open {
+      margin-right: 60px;
+    }
+  }
+  &__search-box {
+    margin: 35px auto 0;
+    width: 100%;
+  }
+  .search-box__form {
+    max-width: 280px;
+  }
+}
