@@ -43,6 +43,21 @@ class Navbar extends React.Component {
                 <li className="navbar__item">
                   <a href="/hombre-remeras" className="navbar__link">Remeras</a>
                 </li>
+
+                <li className="navbar__item navbar__item--has-children">
+                  <a href="/hombre" className="navbar__link navbar__link--text-center">Sale!</a>
+                  <button className="navbar__plus"><i>+</i></button>
+
+                  <ul className="navbar__submenu">
+                    <li className="navbar__item">
+                      <a href="/hombre-sale" className="navbar__link">Promo 1</a>
+                    </li>
+                    <li className="navbar__item">
+                      <a href="/hombre-sale" className="navbar__link">Promo 2</a>
+                    </li>
+                  </ul>
+                </li>
+
               </ul>
             </li>
 

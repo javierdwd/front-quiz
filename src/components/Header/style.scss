@@ -1,8 +1,11 @@
+@import "/variables";
+
 .header * {
   box-sizing: border-box;
 }
 
 .header {
+  align-items: flex-start;
   display: flex;
   flex-flow: row wrap;
   margin: 0 auto 15px;
@@ -20,8 +23,17 @@
   &__search-box {
     margin: 35px auto 0;
     width: 100%;
-  }
-  .search-box__form {
-    max-width: 280px;
+
+    .search-box__form {
+      max-width: 280px;
+    }
+
+    @media (min-width: $navbar-breakpoint) {
+      margin: 14px 75px 0 0;
+      width: auto;
+    }
+    @media (min-width: 1360px) {
+      margin-right: 0;
+    }
   }
 }

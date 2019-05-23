@@ -2,10 +2,9 @@
 
 $navbar-bg-color: #2A2C2A;
 $navbar-link-color: white;
-$navbar-link-height: 3rem;
-$navbar-submenu-width: 8.75rem;
-$navbar-breakpoint: 992px;
-$navbar-breakpoint-max: 991px;
+$navbar-link-color-alt: $navbar-bg-color;
+$navbar-link-height: 48px;
+$navbar-submenu-width: 140px;
 
 .navbar {
   &--closed {
@@ -15,10 +14,28 @@ $navbar-breakpoint-max: 991px;
     display: block;
   }
 
+  @media (min-width: $navbar-breakpoint) {
+    display: block !important;
+    margin-top: 6px;
+  }
+
   // Menu
   &__menu {
     background-color: $navbar-bg-color;
+    margin: 0;
     padding: 0;
+
+    @media (min-width: $navbar-breakpoint) {
+      background: transparent;
+      display: flex;
+      flex-flow: row nowrap;
+      height: $navbar-link-height;
+      overflow: visible;
+
+      & > .navbar__item {
+        min-width: $navbar-submenu-width;
+      }
+    }
   }
 
   // Items.
@@ -46,9 +63,18 @@ $navbar-breakpoint-max: 991px;
     &--text-center {
       text-align: center;
     }
+
+    @media (min-width: $navbar-breakpoint) {
+      color: $navbar-link-color-alt;
+      font-weight: 700;
+    }
   }
   &__item--has-children &__link--text-center {
     padding-left: $navbar-link-height;
+
+    @media (min-width: $navbar-breakpoint) {
+      padding-left: 0;
+    }
   }
 
   // Plus Button.
@@ -79,6 +105,12 @@ $navbar-breakpoint-max: 991px;
     &:active i {
       transform: rotate(45deg);
     }
+
+    @media (min-width: $navbar-breakpoint) {
+      i {
+        color: $navbar-link-color-alt;
+      }
+    }
   }
   &__item:hover > &__plus i {
     transform: rotate(45deg);
@@ -94,6 +126,50 @@ $navbar-breakpoint-max: 991px;
     padding: 0;
     width: 100%;
     z-index: 10;
+
+    @media (min-width: $navbar-breakpoint) {
+      border-top: 0;
+      min-width: $navbar-submenu-width;
+      position: absolute;
+      top: 100%;
+
+      &:hover {
+        overflow: visible;
+      }
+      &::after {
+        background-color: $brand-color;
+        bottom: 0px;
+        content: "";
+        height: 2px;
+        left: 0;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        z-index: 5;
+      }
+
+      .navbar__link {
+        color: $navbar-link-color;
+        font-weight: 400;
+
+        &:hover {
+          background-color: lighten($navbar-bg-color, 4%);
+          transition: background-color .4s;
+        }
+      }
+      .navbar__plus i {
+        color: $navbar-link-color;
+      }
+    }
+
+    & .navbar__submenu {
+      left: 100%;
+      top: 0;
+
+      .navbar__link {
+        font-size: 0.9em;
+      }
+    }
   }
   &__item:hover > &__submenu,
   &__item:active > &__submenu
@@ -190,5 +266,9 @@ $navbar-breakpoint-max: 991px;
     right: 25px;
     top: 70px;
     z-index: 15;
+  }
+
+  @media (min-width: $navbar-breakpoint) {
+    display: none;
   }
 }
