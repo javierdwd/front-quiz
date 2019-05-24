@@ -15,6 +15,7 @@ class Shelf extends Component {
     fetchProducts: PropTypes.func.isRequired,
     products: PropTypes.array.isRequired,
     filters: PropTypes.array,
+    queryFilter: PropTypes.string,
     sort: PropTypes.string
   };
 
@@ -27,23 +28,28 @@ class Shelf extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filters: nextFilters, sort: nextSort } = nextProps;
+    const { queryFilter: nextQueryFilter, filters: nextFilters, sort: nextSort } = nextProps;
+
+    if(nextQueryFilter !== this.props.queryFilter) {
+      this.handleFetchProducts(nextQueryFilter, undefined, undefined);
+    }
 
     if (nextFilters !== this.props.filters) {
-      this.handleFetchProducts(nextFilters, undefined);
+      this.handleFetchProducts(undefined, nextFilters, undefined);
     }
 
     if (nextSort !== this.props.sort) {
-      this.handleFetchProducts(undefined, nextSort);
+      this.handleFetchProducts(undefined, undefined, nextSort);
     }
   }
 
   handleFetchProducts = (
+    queryFilter = this.props.queryFilter,
     filters = this.props.filters,
     sort = this.props.sort
   ) => {
     this.setState({ isLoading: true });
-    this.props.fetchProducts(filters, sort, () => {
+    this.props.fetchProducts(queryFilter, filters, sort, () => {
       this.setState({ isLoading: false });
     });
   };
@@ -66,6 +72,7 @@ class Shelf extends Component {
 
 const mapStateToProps = state => ({
   products: state.shelf.products,
+  queryFilter: state.filters.query,
   filters: state.filters.items,
   sort: state.sort.type
 });

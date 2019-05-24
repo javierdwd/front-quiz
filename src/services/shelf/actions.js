@@ -16,11 +16,17 @@ const compare = {
   }
 };
 
-export const fetchProducts = (filters, sortBy, callback) => dispatch => {
+export const fetchProducts = (qFilter, filters, sortBy, callback) => dispatch => {
   return axios
     .get(productsAPI)
     .then(res => {
       let { products } = res.data;
+
+      if(!!qFilter) {
+        products = products.filter(p => {
+          return p.title.toLowerCase().includes(qFilter.toLowerCase());
+        });
+      }
 
       if (!!filters && filters.length > 0) {
         products = products.filter(p =>

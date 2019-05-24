@@ -1,1 +1,2 @@
 export const UPDATE_FILTER = 'UPDATE_FILTER';
+export const UPDATE_Q_FILTER = 'UPDATE_Q_FILTER';

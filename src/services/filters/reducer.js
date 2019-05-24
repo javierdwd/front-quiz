@@ -1,7 +1,8 @@
-import { UPDATE_FILTER } from './actionTypes';
+import { UPDATE_FILTER, UPDATE_Q_FILTER } from './actionTypes';
 
 const initialState = {
-  item: []
+  item: [],
+  query: ''
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload
+      };
+    case UPDATE_Q_FILTER:
+      return {
+        ...state,
+        query: action.payload
       };
     default:
       return state;
